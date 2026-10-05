@@ -2,16 +2,20 @@ CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -pedantic -Iinclude -Itests
 BUILD_DIR := build
 TEST_TARGET := $(BUILD_DIR)/test_linked_lists
+MAIN_TARGET := $(BUILD_DIR)/main
 
 .PHONY: all test clean
 
-all: $(TEST_TARGET)
+all: $(TEST_TARGET) $(MAIN_TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(TEST_TARGET): $(BUILD_DIR) tests/test_linked_lists.cpp
 	$(CXX) $(CXXFLAGS) tests/test_linked_lists.cpp -o $@
+
+$(MAIN_TARGET): $(TEST_TARGET)
+	cp $(TEST_TARGET) $(MAIN_TARGET)
 
 test: $(TEST_TARGET)
 	./$(TEST_TARGET)
